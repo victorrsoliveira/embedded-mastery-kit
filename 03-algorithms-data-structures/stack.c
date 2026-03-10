@@ -1,40 +1,42 @@
+#include <assert.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 
 #define ARRAY_SIZE(array) sizeof(array) / sizeof(array[0])
 
 #ifdef STACK_DEBUG_ON
 #define STACK_DEBUG_PRINTFN(...) \
-    printf(__VA_ARGS__); \
+    printf(__VA_ARGS__);         \
     printf("\n")
 #else
-#define STACK_DEBUG_PRINTFN(...) 
+#define STACK_DEBUG_PRINTFN(...)
 #endif
 
-#define PRINT_ARRAY(array, size, element_format)                            \
-    do {                                                                    \
-        for (uint32_t array##_ith = 0; array##_ith < size; array##_ith++) { \
-            printf(element_format, array[array##_ith]);                     \
-        }                                                                   \
-        printf("\n");                                                       \
+#define PRINT_ARRAY(array, size, element_format)                          \
+    do                                                                    \
+    {                                                                     \
+        for (uint32_t array##_ith = 0; array##_ith < size; array##_ith++) \
+        {                                                                 \
+            printf(element_format, array[array##_ith]);                   \
+        }                                                                 \
+        printf("\n");                                                     \
     } while (0)
 
 /**
  * @brief Stack of bytes.
  *
  */
-typedef struct {
-    uint8_t *buffer;     // Buffer that stores the stack items (bytes)
-    size_t buffer_size;  // Size of the buffer
-    size_t length;       // Number of bytes currently in the stack.
+typedef struct
+{
+    uint8_t *buffer;       // Buffer that stores the stack items (bytes)
+    size_t   buffer_size;  // Size of the buffer
+    size_t   length;       // Number of bytes currently in the stack.
 } Stack_st;
 
-// Note: length field is used to reference the top of the stack, by the following rule:
-// If length > 0, then top = length - 1;
-// Else, top = 0
+// Note: length field is used to reference the top of the stack, by the
+// following rule: If length > 0, then top = length - 1; Else, top = 0
 
 /**
  * @brief Create a Stack object
@@ -47,7 +49,8 @@ typedef struct {
 int8_t createStack(Stack_st *stack, uint8_t *buffer, size_t buffer_size)
 {
     // Validate input
-    if ((NULL == stack) || (NULL == buffer) || (0 == buffer_size)) {
+    if ((NULL == stack) || (NULL == buffer) || (0 == buffer_size))
+    {
         return -1;
     }
 
@@ -67,7 +70,7 @@ int8_t createStack(Stack_st *stack, uint8_t *buffer, size_t buffer_size)
  */
 int8_t pushByteToStack(Stack_st *stack, uint8_t byte)
 {
-    size_t top = 0;
+    size_t top     = 0;
     int8_t ret_val = 0;
 
     // Validate input
@@ -112,7 +115,7 @@ int8_t popByteFromStack(Stack_st *stack, uint8_t *byte)
 
     if (stack->length > 0)
     {
-        top = stack->length - 1;
+        top   = stack->length - 1;
         *byte = stack->buffer[top];
         stack->length--;
     }
@@ -125,7 +128,7 @@ int8_t popByteFromStack(Stack_st *stack, uint8_t *byte)
     return ret_val;
 }
 
-static inline size_t getStackLength(Stack_st * stack)
+static inline size_t getStackLength(Stack_st *stack)
 {
     return stack->length;
 }
@@ -133,10 +136,10 @@ static inline size_t getStackLength(Stack_st * stack)
 int main(int argc, char const *argv[])
 {
     Stack_st stack;
-    uint8_t buffer[10];
-    uint8_t byte;
+    uint8_t  buffer[10];
+    uint8_t  byte;
 
-    int8_t  err_val;
+    int8_t err_val;
 
     err_val = createStack(&stack, buffer, sizeof(buffer));
 
