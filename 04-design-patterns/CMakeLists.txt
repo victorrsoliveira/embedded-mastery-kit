@@ -8,3 +8,7 @@ add_executable(fsm
     fsm/test_fsm.c)
 
 target_include_directories(fsm PUBLIC fsm)
+
+# Enable gcov test coverage
+target_compile_options(fsm PRIVATE --coverage)
+target_link_libraries(fsm PRIVATE --coverage)

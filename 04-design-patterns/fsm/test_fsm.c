@@ -133,12 +133,22 @@ void test_fsm_self_transition()
     printf("test_fsm_self_transition passed\n");
 }
 
+void test_fsm_transition_null()
+{
+    fsm_transition(NULL, NULL);
+    struct fsm fsm;
+    fsm_transition(&fsm, NULL);
+    fsm_transition(NULL, &on_state);
+    printf("test_fsm_transition_null passed\n");
+}
+
 int main()
 {
     test_fsm_init();
     test_fsm_dispatch_null();
     test_fsm_bootstrap_and_transitions();
     test_fsm_self_transition();
+    test_fsm_transition_null();
 
     printf("All tests passed!\n");
 
