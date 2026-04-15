@@ -41,6 +41,7 @@ struct fsm_state
 struct fsm
 {
     struct fsm_state *current_state;
+    struct fsm_state *initial_state;
     void             *context;
 };
 
