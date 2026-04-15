@@ -6,6 +6,9 @@ cmake_install.cmake
 Makefile
 compile_commands.json
 
+# clangd cache files
+.cache/clangd
+
 # Object files
 *.o
 *.o.d
