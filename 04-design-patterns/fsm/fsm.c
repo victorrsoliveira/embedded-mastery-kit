@@ -11,6 +11,17 @@
 
 const struct fsm_event _FSM_RUN_EVENT = {.id = FSM_RUN_EVENT_ID, .data = NULL};
 
+static struct fsm_state *bootstrap_on_run(struct fsm *fsm, const struct fsm_event *event)
+{
+    return fsm->initial_state;
+}
+
+static struct fsm_state bootstrap_state = {
+    .on_entry = NULL,
+    .on_run   = bootstrap_on_run,
+    .on_exit  = NULL,
+};
+
 uint32_t fsm_init(struct fsm *fsm, struct fsm_state *initial, void *context)
 {
     if ((fsm == NULL) || (initial == NULL))
@@ -18,7 +29,8 @@ uint32_t fsm_init(struct fsm *fsm, struct fsm_state *initial, void *context)
         return -1;
     }
 
-    fsm->current_state = initial;
+    fsm->initial_state = initial;
+    fsm->current_state = &bootstrap_state;
     fsm->context       = context;
 
     return 0;
